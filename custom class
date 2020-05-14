@@ -1,0 +1,112 @@
+<?php
+
+$servername = "localhost";
+$username 	= "root";
+$password 	= "";
+$db 		= "testing";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $db);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+	if (isset($_POST['submit_btn'])) {
+		$errors = 0;
+		//path were our avatar image will be stored
+        	$image = $mysql->real_escape_string('images/'.$_FILES['image']['name']);
+        	$_FILES['avatar']['name'];
+        	$image = $mysqli->real_escape_string('images/'.$_FILES['image']['name']);
+
+
+
+		if (empty($_POST['first_name'])) {
+			$fname_err = "First name required";
+			$errors++;
+		}
+		if (empty($_POST['email'])) {
+			$email_err = "Email is required";
+			$errors++;
+		}
+		if ($errors == 0) {
+			$query = "INSERT INTO test_data (name, email, image) VALUES ('$_POST[first_name]', '$_POST[email]', '$image')";
+			if ($conn->query($query) == TRUE) {
+				echo "Form Submitted Successfully";
+			}
+			else{
+				echo "Error: " . $query . "<br>" . $conn->error;
+				// echo $query->error;
+			}
+
+			
+		}
+	}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap" rel="stylesheet">
+<style type="text/css">
+h1{
+font-family: 'Balsamiq Sans', cursive;
+}
+form.formm {
+    margin: auto;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+}
+
+input {
+    margin-bottom: 10px;
+}
+input.email, input.name {
+    width: 20%;
+    padding: 10px;
+    box-shadow: 0px 0px 4px;
+    border-radius: 3px;
+    border: none;
+}
+input[type="submit"] {
+    padding: 10px 70px;
+    font-size: 15px;
+    border-radius: 5px;
+    border: none;
+    text-align: left !important;
+    background: #ececec;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: .3s;
+}
+input[type="SUBMIT"]:hover {
+    box-shadow: 0px 1px 2px #b7b7b7;
+    margin-top:-2px !important;
+}
+error {
+    color: red;
+    position: relative;
+    top: -7px;
+}
+</style>
+</head>
+<body>
+	<form method="post" class="formm">
+		<h1>Login Into Your Account</h1>
+		<input class="name" placeholder="Enter Your Name" type="text" name="first_name" ><br>
+		<error>
+			<?php 
+			echo (isset($fname_err))? $fname_err : '';
+			 ?>
+			</error><br>
+		<input class="email" placeholder="Enter Your Email" type="text" name="email"><br>
+		<error>	<?php 
+			echo (isset($email_err))? $email_err : '';
+			 ?></error><br>
+		<input type='file' name='file' /><br>
+		<input type="SUBMIT" name="submit_btn">
+	</form>
+</body>
+</html>
